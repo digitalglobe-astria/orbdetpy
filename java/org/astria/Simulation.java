@@ -54,10 +54,7 @@ public class Simulation
     public Simulation(String cfgjson)
     {
 	simcfg = Settings.loadJSON(cfgjson);
-	if (simcfg.Propagation.Step <= 0.0)
-	    simcfg.Propagation.Step = 60.0;
     }
-
     public String simulateMeasurements()
     {
 	Random rand = new Random();
@@ -240,10 +237,15 @@ public class Simulation
 	    else
 		mall.add(json);
 
-	    double dt = prend.durationFrom(tm);
-	    tm = new AbsoluteDate(tm, Math.min(dt, simcfg.Propagation.Step));
-	    if (dt <= 0.0)
-		break;
+        double dt = prend.durationFrom(tm);
+        if (simcfg.Propagation.Step >= 0.0)
+            tm = new AbsoluteDate(tm, Math.min(dt, simcfg.Propagation.Step));
+        else {
+            tm = new AbsoluteDate(tm, Math.max(dt, simcfg.Propagation.Step));
+            dt = -dt;
+        }
+        if (dt <= 0.0)
+        break;
 	}
 
 	Measurements meas = new Measurements();
