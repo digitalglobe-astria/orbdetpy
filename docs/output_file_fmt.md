@@ -6,7 +6,7 @@ Note: The actual output of the function is a string. In python `json.loads()` sh
 
 # Example Output
 The output is a dictionary of dictionaries. The basic structure is as follows: 
-```json
+```python
 {
   "Filter: <FILTER_NAME>
   // Details what filter was used for generating data
@@ -20,22 +20,26 @@ The output is a dictionary of dictionaries. The basic structure is as follows:
 ```
 
 ## Filter Example
+```python
 {
 "Filter": "UKF"
 }
+```
 
 ## Propagation Example
+```python
 {
   "Propagation": { 
      "Time": '2018-01-02T00:02:54Z'
      "State": list[1xN Floats]
   }
 }
+```
 
 ## Estimation 
 The Estimation section is a list of dictionaries containing the estimates at each measurement epoch
 
-```json
+```python
 [{
  'EstimatedCovariance': [[Nx1 Floats]]
  'EstimatedState': [Nx1 Floats],
