@@ -5,15 +5,38 @@ Note: The actual output of the function is a string. In python `json.loads()` sh
 
 
 # Example Output
-The output is a dictionary of dictionaries each representing a 
-
-Note: Once you have loaded the file into a python dictionary the data will not remain ordered. To get ordered data do the following
-```python
-outputs = json.loads(inputs, object_pairs_hook=OrderedDict)  
+The output is a dictionary of dictionaries. The basic structure is as follows: 
+```json
+{
+  "Filter: <FILTER_NAME>
+  // Details what filter was used for generating data
+  "Estimation":{
+  // Contains all the data on estimated states and covariances
+  }, 
+  "Propagation":{
+  // Gives the basic starting state and Time used for 
+  }
+}
 ```
-This will load the OD output data into an OrderedDict
 
-{{
+## Filter Example
+{
+"Filter": "UKF"
+}
+
+## Propagation Example
+{
+  "Propagation": { 
+     "Time": '2018-01-02T00:02:54Z'
+     "State": list[1xN Floats]
+  }
+}
+
+## Estimation 
+The Estimation section is a list of dictionaries containing the estimates at each measurement epoch
+
+```json
+[{
  'EstimatedCovariance': [[Nx1 Floats]]
  'EstimatedState': [Nx1 Floats],
  'InnovationCovariance': [[MxM Floats]],
@@ -22,4 +45,5 @@ This will load the OD output data into an OrderedDict
  'Time': '2018-01-01T23:52:54.000Z'
  }, 
  ...
- }
+ ]
+```
