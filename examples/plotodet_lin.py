@@ -25,6 +25,8 @@ import math
 import json
 import numpy
 import dateutil.parser
+# import matplotlib
+# matplotlib.use('agg')
 import matplotlib.pyplot as plt
 import datetime
 import time
@@ -104,18 +106,18 @@ def plot(cfgfile, inpfile, outfile, dv_start, dv_end, interactive=False, filepat
     plt.figure(0)
     plt.suptitle("Pre-fit residuals")
     for i in range(pre.shape[-1]):
-        if ("PositionVelocity" in key):
+        if "PositionVelocity" in key:
             plt.subplot(3, 2, order[i])
         else:
             plt.subplot(2, 1, i + 1)
-        plt.plot(tim, pre[:,i], "ob")
+        plt.plot(tim, pre[:, i], "ob")
         plt.xlabel("Time [utc]")
         plt.ylabel("%s [%s]" % (ylabs[i], units[i]))
 
-    plt.tight_layout(rect = [0, 0.03, 1, 0.95])
-    if (filepath is not None):
+    plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+    if filepath is not None:
         outfiles.append(filepath + "_prefit.png")
-        plt.savefig(outfiles[-1], format = "png")
+        plt.savefig(outfiles[-1], format="png")
 
     pos_post_fit_rms = 0
     vel_post_fit_rms = 0
@@ -123,35 +125,45 @@ def plot(cfgfile, inpfile, outfile, dv_start, dv_end, interactive=False, filepat
     plt.figure(1) 
     plt.suptitle("Post-fit residuals")
     for i in range(pre.shape[-1]):
-        if ("PositionVelocity" in key):
+        if "PositionVelocity" in key:
             plt.subplot(3, 2, order[i])
         else:
             plt.subplot(2, 1, i + 1)
-        plt.plot(tim, pos[:,i], "ob")
-        plt.plot(tim, -cov[:,i], "-r")
-        plt.plot(tim,  cov[:,i], "-r", label = r"Innov. 3$\sigma$")
+        plt.plot(tim, pos[:, i], "ob")
+        plt.plot(tim, -cov[:, i], "-r")
+        plt.plot(tim,  cov[:, i], "-r", label=r"Innov. 3$\sigma$")
         plt.xlabel("Time [utc]")
         plt.ylabel("%s [%s]" % (ylabs[i], units[i]))
-        if ("PositionVelocity" not in key):
-            plt.ylim(-cov[i,0], cov[i,0])
-        if i < 3:
-            pos_post_fit_rms = numpy.mean(pos[:, i]**2) + pos_post_fit_rms
-        else:
-            vel_post_fit_rms = numpy.mean(pos[:, i]**2) + vel_post_fit_rms
+        if "PositionVelocity" not in key:
+            plt.ylim(-cov[i, 0], cov[i, 0])
+        if "PositionVelocity" in key:
+            if i < 3:
+                pos_post_fit_rms = numpy.mean(pos[:, i]**2) + pos_post_fit_rms
+            else:
+                vel_post_fit_rms = numpy.mean(pos[:, i]**2) + vel_post_fit_rms
+        elif "Range" in key and "RangeRate" in key:
+            if i == 0:
+                range_post_fit_rms = numpy.sqrt(numpy.mean(pos[:, i]**2))
+            elif i == 1:
+                range_rate_post_fit_rms = numpy.sqrt(numpy.mean(pos[:, i]**2))
 
-    print("Position post-fit 3D residual RMS = " + str(numpy.sqrt(pos_post_fit_rms)) + " meters.")
-    print("Velocity post-fit 3D residual RMS = " + str(numpy.sqrt(vel_post_fit_rms)*100) + " cm/s.")
+    if "PositionVelocity" in key:
+        print("Position post-fit 3D residual RMS = " + str(numpy.sqrt(pos_post_fit_rms)) + " meters.")
+        print("Velocity post-fit 3D residual RMS = " + str(numpy.sqrt(vel_post_fit_rms)*100) + " cm/s.")
+    elif "Range" in key and "RangeRate" in key:
+        print("Range post-fit residual RMS = " + str(range_post_fit_rms) + " meters.")
+        print("Range-rate post-fit residual RMS = " + str(range_rate_post_fit_rms*100) + " cm/s.")
 
-    plt.tight_layout(rect = [0, 0.03, 1, 0.95])
-    if (filepath is not None):
+    plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+    if filepath is not None:
         outfiles.append(filepath + "_postfit.png")
-        plt.savefig(outfiles[-1], format = "png")
+        plt.savefig(outfiles[-1], format="png")
 
     parnames, parmvals = [], []
-    if (cfg["Drag"]["Coefficient"]["Estimation"] == "Estimate"):
+    if cfg["Drag"]["Coefficient"]["Estimation"] == "Estimate":
         parnames.append(r"$C_D$")
 
-    if (cfg["RadiationPressure"]["Creflection"]["Estimation"] == "Estimate"):
+    if cfg["RadiationPressure"]["Creflection"]["Estimation"] == "Estimate":
         parnames.append(r"$C_R$")
 
     for i in range(par.shape[-1]):
@@ -169,7 +181,7 @@ def plot(cfgfile, inpfile, outfile, dv_start, dv_end, interactive=False, filepat
         outfiles.append(filepath + "_estpar.png")
         plt.savefig(outfiles[-1], format="png")
 
-    if dmcrun:
+    if dmcrun and dv_start and dv_end:
 
         dv_start = datetime.datetime.strptime(dv_start, '%Y-%m-%dT%H:%M:%S.%f')
         dv_end = datetime.datetime.strptime(dv_end, '%Y-%m-%dT%H:%M:%S.%f')
