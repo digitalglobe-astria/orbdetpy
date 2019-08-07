@@ -34,12 +34,21 @@ from scipy import integrate
 
 
 def plot(cfgfile, inpfile, outfile, dv_start, dv_end, interactive=False, filepath=None):
-    with open(cfgfile, "r") as fp:
-        cfg = json.load(fp)
-    with open(inpfile, "r") as fp:
-        inp = json.load(fp)
-    with open(outfile, "r") as fp:
-        out = json.load(fp)["Estimation"]
+
+    if isinstance(cfgfile, str) and isinstance(inpfile, str) and isinstance(outfile, str):
+
+        with open(cfgfile, "r") as fp:
+            cfg = json.load(fp)
+        with open(inpfile, "r") as fp:
+            inp = json.load(fp)
+        with open(outfile, "r") as fp:
+            out = json.load(fp)["Estimation"]
+
+    else:  # this logic processes direct json dict/list inputs instead of file locations
+
+        cfg = cfgfile
+        inp = inpfile
+        out = outfile["Estimation"]
 
     key = tuple(cfg["Measurements"].keys())
     dmcrun = (cfg["Estimation"].get("DMCCorrTime", 0.0) > 0.0 and
@@ -49,7 +58,7 @@ def plot(cfgfile, inpfile, outfile, dv_start, dv_end, interactive=False, filepat
     for i, o in zip(inp, out):
         tstamp.append(dateutil.parser.isoparse(i["Time"]))
 
-        if ("PositionVelocity" in key):
+        if "PositionVelocity" in key:
             prefit.append([ix - ox for ix, ox in zip(i["PositionVelocity"],
                                                      o["PreFit"]["PositionVelocity"])])
             posfit.append([ix - ox for ix, ox in zip(i["PositionVelocity"],
@@ -65,13 +74,13 @@ def plot(cfgfile, inpfile, outfile, dv_start, dv_end, interactive=False, filepat
             p.append(3.0*numpy.sqrt(o["InnovationCovariance"][m][m]))
         inocov.append(p)
 
-        if (len(o["EstimatedState"]) > 6):
-            if (dmcrun):
+        if len(o["EstimatedState"]) > 6:
+            if dmcrun:
                 params.append(o["EstimatedState"][6:-3])
             else:
                 params.append(o["EstimatedState"][6:])
 
-        if (dmcrun):
+        if dmcrun:
             estmacc.append(o["EstimatedState"][-3:])
 
     pre = numpy.array(prefit)
@@ -83,18 +92,18 @@ def plot(cfgfile, inpfile, outfile, dv_start, dv_end, interactive=False, filepat
     tim = tstamp
 
     angles = ("Azimuth", "Elevation", "RightAscension", "Declination")
-    if (key[0] in angles and key[1] in angles):
+    if key[0] in angles and key[1] in angles:
         pre *= 648000.0/math.pi
         pos *= 648000.0/math.pi
         cov *= 648000.0/math.pi
         units = ("arcsec", "arcsec")
     else:
-        if ("PositionVelocity" in key):
+        if "PositionVelocity" in key:
             units = ("m", "m", "m", "m/s", "m/s", "m/s")
         else:
             units = ("m", "m/s")
 
-    if ("PositionVelocity" in key):
+    if "PositionVelocity" in key:
         ylabs = (r"$\Delta x$", r"$\Delta y$", r"$\Delta z$",
                  r"$\Delta v_x$", r"$\Delta v_y$", r"$\Delta v_z$")
         order = (1, 3, 5, 2, 4, 6)
