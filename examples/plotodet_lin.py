@@ -190,14 +190,16 @@ def plot(cfgfile, inpfile, outfile, dv_start, dv_end, interactive=False, filepat
         outfiles.append(filepath + "_estpar.png")
         plt.savefig(outfiles[-1], format="png")
 
-    if dmcrun and dv_start and dv_end:
+    if dmcrun:
 
-        dv_start = datetime.datetime.strptime(dv_start, '%Y-%m-%dT%H:%M:%S.%f')
-        dv_end = datetime.datetime.strptime(dv_end, '%Y-%m-%dT%H:%M:%S.%f')
-        dmc_radial = []
-        dmc_along = []
-        dmc_cross = []
-        dmc_time = []
+        if dv_start != 0 and dv_end != 0:
+
+            dv_start = datetime.datetime.strptime(dv_start, '%Y-%m-%dT%H:%M:%S.%f')
+            dv_end = datetime.datetime.strptime(dv_end, '%Y-%m-%dT%H:%M:%S.%f')
+            dmc_radial = []
+            dmc_along = []
+            dmc_cross = []
+            dmc_time = []
 
         plt.figure(3)
         plt.suptitle("DMC estimated accelerations")
@@ -232,13 +234,13 @@ def plot(cfgfile, inpfile, outfile, dv_start, dv_end, interactive=False, filepat
 
                     jj += 1
 
-            dv_radial = integrate.cumtrapz(dmc_radial, dmc_time)
-            dv_along = integrate.cumtrapz(dmc_along, dmc_time)
-            dv_cross = integrate.cumtrapz(dmc_cross, dmc_time)
-            print(dv_radial[-1])
-            print(dv_along[-1])
-            print(dv_cross[-1])
-            print(math.sqrt(dv_radial[-1]**2 + dv_along[-1]**2 + dv_cross[-1]**2))
+                dv_radial = integrate.cumtrapz(dmc_radial, dmc_time)
+                dv_along = integrate.cumtrapz(dmc_along, dmc_time)
+                dv_cross = integrate.cumtrapz(dmc_cross, dmc_time)
+                print(dv_radial[-1])
+                print(dv_along[-1])
+                print(dv_cross[-1])
+                print(math.sqrt(dv_radial[-1]**2 + dv_along[-1]**2 + dv_cross[-1]**2))
 
         plt.tight_layout(rect=[0, 0.03, 1, 0.95])
         if filepath is not None:

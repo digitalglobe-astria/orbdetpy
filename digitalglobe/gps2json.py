@@ -66,7 +66,7 @@ with open(sys.argv[1], "r") as f:
         r_eci_temp = r_ecef.transform_to(GCRS(obstime=epoch_utc))
         v_eci = r_eci_temp.cartesian.differentials['s'].d_xyz  # this may be off from Jonathan's initial notebook test
         r_eci = r_eci_temp.cartesian.xyz
-        utc_ms = temp[4][:-3]  # apparently orekit can only handle microsecond precision
+        utc_ms = temp[4][:-3]  # FIXME -- orbdetpy can handle 6 digits of precision in time so need to remove this
 
         json_object = {"Time": utc_ms + "Z",  # add this to maintain ISO8601 format for orbdetpy
                        "PositionVelocity": [
