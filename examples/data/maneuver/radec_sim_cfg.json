@@ -37,9 +37,7 @@
 	"Sun" : true,
 	"Creflection" :
 	{
-            "Value" : 1.5,
-            "Min" : 1.0,
-            "Max" : 2.0
+            "Value" : 1.5
 	}
     },
 
@@ -69,75 +67,45 @@
     [
 	{
 	    "Time" : "2018-01-01T02:02:54Z",
-	    "Duration" : 10.0,
-	    "Thrust" : 10.0,
-	    "Isp" : 300.0,
-	    "Direction" :
-	    [
-		0.0,
-		0.0,
-		1.0
-	    ]
+	    "TriggerEvent" : "DateTime",
+	    "TriggerParams" : [],
+	    "ManeuverType" : "ConstantThrust",
+	    "ManeuverParams" : [0.0, 0.0, 1.0, 10.0, 10.0, 300.0]
 	},
 	{
 	    "Time" : "2018-01-01T04:02:54Z",
-	    "Duration" : 10.0,
-	    "Thrust" : 10.0,
-	    "Isp" : 300.0,
-	    "Direction" :
-	    [
-		0.0,
-		0.0,
-		1.0
-	    ]
+	    "TriggerEvent" : "DateTime",
+	    "TriggerParams" : [],
+	    "ManeuverType" : "ConstantThrust",
+	    "ManeuverParams" : [0.0, 0.0, 1.0, 10.0, 10.0, 300.0]
 	},
 	{
 	    "Time" : "2018-01-01T06:02:54Z",
-	    "Duration" : 10.0,
-	    "Thrust" : 10.0,
-	    "Isp" : 300.0,
-	    "Direction" :
-	    [
-		0.0,
-		0.0,
-		1.0
-	    ]
+	    "TriggerEvent" : "DateTime",
+	    "TriggerParams" : [],
+	    "ManeuverType" : "ConstantThrust",
+	    "ManeuverParams" : [0.0, 0.0, 1.0, 10.0, 10.0, 300.0]
 	},
 	{
 	    "Time" : "2018-01-01T08:02:54Z",
-	    "Duration" : 10.0,
-	    "Thrust" : 10.0,
-	    "Isp" : 300.0,
-	    "Direction" :
-	    [
-		1.0,
-		0.0,
-		0.0
-	    ]
+	    "TriggerEvent" : "DateTime",
+	    "TriggerParams" : [],
+	    "ManeuverType" : "ConstantThrust",
+	    "ManeuverParams" : [1.0, 0.0, 0.0, 10.0, 10.0, 300.0]
 	},
 	{
 	    "Time" : "2018-01-01T10:02:54Z",
-	    "Duration" : 10.0,
-	    "Thrust" : 10.0,
-	    "Isp" : 300.0,
-	    "Direction" :
-	    [
-		0.0,
-		1.0,
-		0.0
-	    ]
+	    "TriggerEvent" : "DateTime",
+	    "TriggerParams" : [],
+	    "ManeuverType" : "ConstantThrust",
+	    "ManeuverParams" : [0.0, 1.0, 0.0, 10.0, 10.0, 300.0]
 	},
 	{
 	    "Time" : "2018-01-01T12:02:54Z",
-	    "Duration" : 10.0,
-	    "Thrust" : 10.0,
-	    "Isp" : 300.0,
-	    "Direction" :
-	    [
-		0.0,
-		0.0,
-		1.0
-	    ]
+	    "TriggerEvent" : "DateTime",
+	    "TriggerParams" : [],
+	    "ManeuverType" : "ConstantThrust",
+	    "ManeuverParams" : [0.0, 0.0, 1.0, 10.0, 10.0, 300.0]
 	}
     ],
 

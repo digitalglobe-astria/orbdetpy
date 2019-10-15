@@ -18,6 +18,7 @@ import sys
 import math
 import json
 import numpy
+import argparse
 from numpy.linalg import norm
 import dateutil.parser
 import matplotlib.pyplot as plt
@@ -26,7 +27,7 @@ def plot(cfgfile, inpfile, outfile, interactive = False, filepath = None):
     with open(cfgfile, "r") as fp:
         cfg = json.load(fp)
     with open(inpfile, "r") as fp:
-        inp = json.load(fp)
+        inp = [x for x in json.load(fp) if ("Station" in x or "PositionVelocity" in x)]
     with open(outfile, "r") as fp:
         out = json.load(fp)["Estimation"]
 
@@ -178,9 +179,13 @@ def plot(cfgfile, inpfile, outfile, interactive = False, filepath = None):
     plt.close("all")
     return(outfiles)
 
-if (__name__ == "__main__"):
-    if (len(sys.argv) < 4):
-        print("Usage: python %s config_file measurement_file output_file" % sys.argv[0])
-        exit()
-
-    plot(sys.argv[1], sys.argv[2], sys.argv[3], interactive = True)
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description='Plots orbit determination results.')
+    parser.add_argument('config', help='Path to config file.')
+    parser.add_argument('input', help='Path to input file.')
+    parser.add_argument('output', help='Path to output file.')
+    parser.add_argument('--interactive', default=True,
+                        help='Whether to show plots interactively.')
+    args = parser.parse_args()
+    plot(args.config, args.input, args.output, interactive=args.interactive)
