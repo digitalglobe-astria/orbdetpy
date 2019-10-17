@@ -13,10 +13,7 @@
 
     "Drag" :
     {
-	"Model" : "Exponential",
-	"ExpRho0" : 3.614E-13,
-	"ExpH0": 700000.0,
-	"ExpHScale" : 88667.0,
+	"Model" : "MSISE",
 	"Coefficient" :
 	{
 	    "Value" : 2.0,
@@ -83,10 +80,8 @@
     {
 	"Filter" : "UKF",
 	"Covariance" : [25E6, 25E6, 25E6, 1E-2, 1E-2, 1E-2, 1.00, 0.25, 1E-6, 1E-6, 1E-6],
-	"ProcessNoise" : [1E-24, 1E-24, 1E-24, 1E-24, 1E-24, 1E-24],
-	"NoiseTimeDelta" : 10.0,
 	"DMCCorrTime" : 100.0,
-	"DMCSigmaPert" : 0.005,
+	"DMCSigmaPert" : 5.0E-6,
 	"DMCAcceleration" :
 	{
 	    "Value" : 0.0,
