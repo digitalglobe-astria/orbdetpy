@@ -37,12 +37,19 @@ def format_weather(lines):
 
 def update_data():
     datadir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
+    # updates = [["https://datacenter.iers.org/data/latestVersion/7_FINALS.ALL_IAU1980_V2013_017.txt",
+    #             os.path.join(datadir, "Earth-Orientation-Parameters", "IAU-1980", "finals.all"), None],
+    #            ["https://datacenter.iers.org/data/latestVersion/9_FINALS.ALL_IAU2000_V2013_019.txt",
+    #             os.path.join(datadir, "Earth-Orientation-Parameters", "IAU-2000", "finals2000A.all"), None],
+    #            ["http://maia.usno.navy.mil/ser7/tai-utc.dat",
+    #             os.path.join(datadir, "tai-utc.dat"), None],
+    #            ["http://www.celestrak.com/SpaceData/SW-All.txt",
+    #             os.path.join(datadir, "SpaceWeather.dat"), format_weather]]
+
     updates = [["https://datacenter.iers.org/data/latestVersion/7_FINALS.ALL_IAU1980_V2013_017.txt",
                 os.path.join(datadir, "Earth-Orientation-Parameters", "IAU-1980", "finals.all"), None],
                ["https://datacenter.iers.org/data/latestVersion/9_FINALS.ALL_IAU2000_V2013_019.txt",
                 os.path.join(datadir, "Earth-Orientation-Parameters", "IAU-2000", "finals2000A.all"), None],
-               ["http://maia.usno.navy.mil/ser7/tai-utc.dat",
-                os.path.join(datadir, "tai-utc.dat"), None],
                ["http://www.celestrak.com/SpaceData/SW-All.txt",
                 os.path.join(datadir, "SpaceWeather.dat"), format_weather]]
 
