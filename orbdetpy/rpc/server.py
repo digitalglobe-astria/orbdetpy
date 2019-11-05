@@ -37,7 +37,7 @@ class RemoteServer:
                 return
 
         # Start server
-        cmdline = ["java", "-Xmx2G", "-jar", jarfile, str(cls.rpc_port), datadir]
+        cmdline = ["java", "-Xms16G -Xmx16G", "-jar", jarfile, str(cls.rpc_port), datadir]
         cls.rpc_server_proc = psutil.Popen(cmdline, stdout = DEVNULL,
                                            stderr = DEVNULL)
 
